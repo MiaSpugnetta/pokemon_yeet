@@ -1,6 +1,9 @@
 import random
 import time
 from utilities import setup_game, load_pokemon
+import pandas as pd
+import matplotlib.pyplot as plt
+
 
 # POKEMON: YEET
 # Class that defines a Pokemon
@@ -26,7 +29,7 @@ class Pokemon:
         attack = random.choice(list(self.attacks.keys()))
         damage = self.attacks[attack]
         print(f"{self.name} attacked with {attack} and it did {damage} damage")
-        time.sleep(1)
+        #time.sleep(1)
 
         return damage
 
@@ -52,7 +55,7 @@ class Lineup:
     # Randomly recruiting pokemon
     def recruit(self):
         for i in range(6):  # team of six
-            rand_pokemon = random.randint(1, 152)  # select random pokemon
+            rand_pokemon = random.randint(1, 151)  # select random pokemon
             poke_name, poke_type, poke_hp = load_pokemon(rand_pokemon)  # fetch info from file
             #print(poke_type, poke_name, poke_hp)
             #pokemon_to_add = {poke_name: Pokemon(poke_name, poke_type, attacks, poke_hp, "None" )}
@@ -87,27 +90,27 @@ def game_logic():
     print("Get Ready, Now Recruiting Your Team Of Pokemon!")
     #our_team = Lineup().recruit(poke_dict)
     our_team = Lineup().recruit()
-    time.sleep(1.5)  # add delay for dramatic effect
+    #time.sleep(1.5)  # add delay for dramatic effect
     print("\n")
 
     print("Team Selected! Meet Your New Team")
     our_team.show_lineup()
-    time.sleep(2)
+    #time.sleep(2)
 
     print("\n")
     print("Now Recruiting The Enemy Team!")
     print("\n")
     #your_team = Lineup().recruit(poke_dict)
     your_team = Lineup().recruit()
-    time.sleep(1.5)
+    #time.sleep(1.5)
 
     print("Team Selected! Meet Your Enemies!")
     your_team.show_lineup()
-    time.sleep(2)
+    #time.sleep(2)
 
     print("PREPARE TO FIGHT!!!")
     print("\n")
-    time.sleep(3)
+    #time.sleep(3)
 
     our_score = 0
     enemy_score = 0
@@ -128,7 +131,7 @@ def game_logic():
                 our_score += 1
                 print(f"The Score is: Me: {our_score}, Enemy: {enemy_score}")
                 print("\n")
-                time.sleep(1)
+                #time.sleep(1)
 
                 continue
 
@@ -143,24 +146,48 @@ def game_logic():
                 enemy_score += 1
                 print(f"The Score is: Me: {our_score}, Enemy: {enemy_score}")
                 print("\n")
-                time.sleep(1)
+                #time.sleep(1)
 
 
                 continue
 
 
     if our_score > enemy_score:
-        print("WE WON HAHAHAHAHAHAHAHAHAHAHAHA")
+        #print("WE WON HAHAHAHAHAHAHAHAHAHAHAHA")
+        return "WE WON HAHAHAHAHAHAHAHAHAHAHAHA"
 
     elif our_score == enemy_score:
-        print("IT'S A DRAW")
+        #print("IT'S A DRAW")
+        return "IT'S A DRAW"
 
     else:
-        print("WE LOST BECAUSE WE ARE LOSERS")
+        #print("WE LOST BECAUSE WE ARE LOSERS")
+        return "WE LOST BECAUSE WE ARE LOSERS"
 
 
-#game_logic(poke_dict)
 setup_game()
-#x = Lineup()
-#x.recruit()
-game_logic()
+
+#game_logic()
+
+################################################################
+# check bias
+
+outcome_dict = {"WE WON HAHAHAHAHAHAHAHAHAHAHAHA": 0,
+                "IT'S A DRAW": 0,
+                "WE LOST BECAUSE WE ARE LOSERS": 0}
+
+for i in range(1000):
+    outcome = game_logic()
+    outcome_dict[outcome] += 1
+
+print(outcome_dict)
+
+#df = pd.DataFrame.from_dict(outcome_dict, orient='index')
+df = pd.DataFrame({'outcome': outcome_dict.keys(), 'value': outcome_dict.values()})
+
+df.plot(x="outcome", y="value", fontsize=5, rot=0, kind='bar')
+plt.show()
+
+print(df)
+
+#print(game_logic())

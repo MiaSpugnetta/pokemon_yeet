@@ -32,12 +32,10 @@ def load_pokemon(pokemon):
     with open(f'./pokemon/{pokemon}.json') as f:
         poke_data = json.load(f)
 
-        poke_name = poke_data['name']
-        poke_type = poke_data['types'][0]['type']['name']
-        poke_hp = poke_data['stats'][0]['base_stat']
+        # From json file:
+        poke_name = poke_data['name']  # fetch name
+        poke_type = poke_data['types'][0]['type']['name']  # fetch type
+        poke_hp = poke_data['stats'][0]['base_stat']  # fetch HPs
 
 
     return poke_name, poke_type, poke_hp
-
-#print(load_pokemon(87))
-#setup_game()
