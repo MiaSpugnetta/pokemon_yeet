@@ -45,5 +45,3 @@ def load_pokemon(pokemon):
             moves.append(move_name)
 
     return poke_name, poke_type, poke_hp, moves
-
-print(load_pokemon(45))

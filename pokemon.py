@@ -16,16 +16,18 @@ class Pokemon:
 
     # print hp
     def get_status(self):
-        print(f"{self.name}: HP: {self.hp} STATUS: {self.status}")
+        print(f"{self.name}: HP: {self.hp} STATUS: {self.status} TYPE: {self.type}")
 
     # print move list
     def get_attacks(self):
         for k, v in self.attacks.items():
             print(k, v)
 
-    def run_attack(self):
+    def run_attack(self, adversary):
         attack = random.choice(list(self.attacks.keys()))
-        damage = self.attacks[attack]
+        damage = self.attacks[attack] #* weaknesses[self.type][adversary.type]
+        print(weaknesses[self.type][adversary.type])
+        #print(weaknesses[self.type][adversary.type].values())
         print(f"{self.name} attacked with {attack} and it did {damage} damage")
         #time.sleep(1)
 
@@ -57,7 +59,7 @@ class Lineup:
             poke_name, poke_type, poke_hp, moves = load_pokemon(rand_pokemon)  # fetch info from file
             #print(poke_type, poke_name, poke_hp)
             #pokemon_to_add = {poke_name: Pokemon(poke_name, poke_type, attacks, poke_hp, "None" )}
-            attacks = dict(zip(moves, damage))
+            attacks = dict(zip(moves, damage))  # make a dict out of the list of moves from json and list of damage
             pokemon_to_add = Pokemon(poke_name, poke_type, attacks, poke_hp, "None" )
             self.members.append(pokemon_to_add)
 
@@ -80,12 +82,80 @@ class Lineup:
 
 # Hardcoded dictionary of generic attacks
 #attacks = {"tackle": 10, "leer": 20, "cut": 25, "scratch": 35}
-#todo: make new directory with attacks and damage
 
 damage = [10, 20, 25, 35]
 
 #ToDo: implement weakness logic
+from collections import defaultdict
+weaknesses = {  'normal':   {'rock': 0.5, 'ghost': 0},
+                'fire':     {'fire':0.5, 'water': 0.5, 'grass': 2,
+                            'ice': 2, 'bug': 2, 'rock': 0.5, 'dragon': 0.5},
+                'water':    {'fire': 2, 'water': 0.5, 'grass': 0.5,
+                            'ground': 2, 'rock': 2, 'dragon': 0.5},
+                'electric': {'water': 2, 'electric': 0.5,
+                            'grass': 0.5, 'ground': 0, 'flying': 2,
+                            'dragon': 0.5},
+                'grass':    {'fire': 0.5, 'water': 2, 'grass': 0.5,
+                            'poison': 0.5, 'ground': 2, 'flying': 0.5,
+                            'bug': 0.5, 'rock': 2, 'dragon': 0.5},
+                'ice':      {'water': 0.5, 'grass': 2, 'ice': 0.5,
+                            'ground': 2, 'flying': 2, 'dragon': 2},
+                'fighting': {'normal': 2, 'ice': 2, 'poison': 0.5,
+                            'flying': 0.5, 'psychic': 0.5, 'bug': 0.5, 'rock': 2, 'ghost': 0},
+                'poison':   {'grass': 2, 'poison': 0.5,
+                            'ground': 0.5, 'bug': 2, 'rock': 0.5,
+                            'ghost': 0.5},
+                'ground':   {'fire': 2, 'grass': 2, 'ice': 0.5,
+                            'poison': 2, 'flying': 0, 'bug': 0.5,
+                            'rock': 2},
+                'flying':   {'electric':0.5,'grass':2,
+                            'fighting': 2, 'bug': 2, 'rock': 0.5},
+                'psychic':  {'fighting': 2, 'poison': 2,
+                            'psychic': 0.5},
+                'bug':      {'fire': 0.5, 'grass': 2,
+                            'fighting': 0.5, 'poison': 2,
+                            'flying': 0.5, 'psychic': 2,
+                            'ghost': 0.5},
+                'rock':     {'fire': 2, 'ice': 2, 'fighting': 0.5,
+                            'ground': 0.5, 'flying': 2, 'rock': 2},
+                'ghost':    {'normal': 0, 'psychic': 0, 'ghost': 2},
+                'dragon':   {'dragon': 2}
+                }
+#weaknesses = defaultdict(1, weaknesses)
 
+# do same thing as lambda: 1
+def default_value_1():
+    return 1
+
+def default_value_default_dict():
+    return defaultdict(default_value_1)
+
+
+# function() vs function no parenthesis: function() is a call of function - function is the definition, the 'callable' (because it can be called)
+default_weakness = defaultdict(default_value_default_dict)
+
+
+default_weakness = defaultdict(lambda: defaultdict(lambda: 1))
+assert default_weakness['test']['test'] == 1
+
+for type in weaknesses:
+    tmp_default_dict = defaultdict(lambda: 1)
+    assert tmp_default_dict['test'] == 1
+    for type2 in weaknesses[type]:
+        tmp_default_dict[type2] = weaknesses[type][type2]
+
+    default_weakness[type] = tmp_default_dict
+
+weaknesses = default_weakness
+
+
+#most important part: test your assumptions
+assert weaknesses['test']['test'] == 1
+assert weaknesses['normal']['rock'] == 0.5
+assert weaknesses['normal']['boob'] == 1
+
+
+#print(weaknesses["bug"]['fire'])
 #def game_logic(poke_dict):
 def game_logic():
     print("Get Ready, Now Recruiting Your Team Of Pokemon!")
@@ -120,8 +190,10 @@ def game_logic():
     # There are as many matches as pokemon per team
     for i in range(len(your_team.members)):
         while your_team.members[i].hp > 0 and our_team.members[i].hp > 0:  # attack randomly until the pokemon is dead
-            damage = our_team.members[i].run_attack()  #todo: randomise wich team attacks first, it's always from ours as is
+            damage = our_team.members[i].run_attack(your_team.members[i])  #todo: randomise wich team attacks first, it's always from ours as is
             your_team.members[i].receive_attack(damage)
+            print("%%%%%%%%%%%%%%%%%%%%")
+            print(your_team.members[i].type)
             #time.sleep(1)
 
             if your_team.members[i].hp <= 0:
@@ -136,7 +208,7 @@ def game_logic():
 
                 continue
 
-            damage = your_team.members[i].run_attack()
+            damage = your_team.members[i].run_attack(our_team.members[i])
             our_team.members[i].receive_attack(damage)
 
             if our_team.members[i].hp <= 0:
@@ -149,9 +221,7 @@ def game_logic():
                 print("\n")
                 #time.sleep(1)
 
-
                 continue
-
 
     if our_score > enemy_score:
         return "WE WON HAHAHAHAHAHAHAHAHAHAHAHA"
@@ -164,6 +234,5 @@ def game_logic():
 
 
 setup_game()
-
 
 print(game_logic())

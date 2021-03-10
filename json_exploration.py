@@ -20,4 +20,6 @@ for i in range(5):
     move = random.choice(data['moves'])
     move_name = move['move']['name']
     moves.append(move_name)
+
+
 print(moves)
