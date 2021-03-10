@@ -28,4 +28,16 @@ def setup_game():
     print("Game is setup and ready to begin!")
 
 
+def load_pokemon(pokemon):
+    with open(f'./pokemon/{pokemon}.json') as f:
+        poke_data = json.load(f)
+
+        poke_name = poke_data['name']
+        poke_type = poke_data['types'][0]['type']['name']
+        poke_hp = poke_data['stats'][0]['base_stat']
+
+
+    return poke_name, poke_type, poke_hp
+
+#print(load_pokemon(87))
 #setup_game()

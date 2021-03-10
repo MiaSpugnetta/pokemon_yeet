@@ -1,5 +1,6 @@
 import random
 import time
+from utilities import setup_game, load_pokemon
 
 # POKEMON: YEET
 # Class that defines a Pokemon
@@ -49,29 +50,43 @@ class Lineup:
             i.get_status()
 
     # Randomly recruiting pokemon
-    def recruit(self, poke_dict):
-        for i in range(3):
-            pokemon_to_add = random.choice(list(poke_dict.values()))  # pick ranndom pokemon
-            self.members.append(pokemon_to_add)  # add to the list
-            del poke_dict[pokemon_to_add.name]  # remove from dict so that there are no duplicates
+    def recruit(self):
+        for i in range(6):  # team of six
+            rand_pokemon = random.randint(1, 152)  # select random pokemon
+            poke_name, poke_type, poke_hp = load_pokemon(rand_pokemon)  # fetch info from file
+            #print(poke_type, poke_name, poke_hp)
+            #pokemon_to_add = {poke_name: Pokemon(poke_name, poke_type, attacks, poke_hp, "None" )}
+            pokemon_to_add = Pokemon(poke_name, poke_type, attacks, poke_hp, "None" )
+            self.members.append(pokemon_to_add)
+
+            #pokemon_to_add = random.choice(list(poke_dict.values()))  # pick #random pokemon
+            #self.members.append(pokemon_to_add)  # add to the list
+            #del poke_dict[pokemon_to_add.name]  # remove from dict so that there are no duplicates
         return self
 
 
-# Harcoded dictionary of pokemon objects
-poke_dict = {
-            "bulbasaur": Pokemon("bulbasaur", "Grass", {"tackle": 10, "vine whip": 20, "razor leaf": 25, "hyper beam": 35}, 100, "Fire"),
-            "squirtle": Pokemon("squirtle", "Water", {"tackle": 10, "water gun": 20, "bubble": 25, "hydro pump": 35}, 100, "Electric"),
-            "charmander": Pokemon("charmander", "Fire", {"tackle": 10, "ember": 20, "fire blast": 25, "flame wheel": 35}, 100, "Water"),
-            "rattata": Pokemon("rattata", "Fire", {"tackle": 10, "ember": 20, "fire blast": 25, "flame wheel": 35}, 100, "Water"),
-            "ditto": Pokemon("ditto", "Fire", {"tackle": 10, "ember": 20, "fire blast": 25, "flame wheel": 35}, 100, "Water"),
-            "mew": Pokemon("mew", "Fire", {"tackle": 10, "ember": 20, "fire blast": 25, "flame wheel": 35}, 100, "Water"),
-            "arbok": Pokemon("arbok", "Fire", {"tackle": 10, "ember": 20, "fire blast": 25, "flame wheel": 35}, 100, "Water")
-            }
+## Harcoded dictionary of pokemon objects
+#poke_dict = {
+#            "bulbasaur": Pokemon("bulbasaur", "Grass", {"tackle": 10, "vine #whip": 20, "razor leaf": 25, "hyper beam": 35}, 100, "Fire"),
+#            "squirtle": Pokemon("squirtle", "Water", {"tackle": 10, "water #gun": 20, "bubble": 25, "hydro pump": 35}, 100, "Electric"),
+#            "charmander": Pokemon("charmander", "Fire", {"tackle": 10, #"ember": 20, "fire blast": 25, "flame wheel": 35}, 100, "Water"),
+#            "rattata": Pokemon("rattata", "Fire", {"tackle": 10, "ember": 20, #"fire blast": 25, "flame wheel": 35}, 100, "Water"),
+#            "ditto": Pokemon("ditto", "Fire", {"tackle": 10, "ember": 20, #"fire blast": 25, "flame wheel": 35}, 100, "Water"),
+#            "mew": Pokemon("mew", "Fire", {"tackle": 10, "ember": 20, "fire #blast": 25, "flame wheel": 35}, 100, "Water"),
+#            "arbok": Pokemon("arbok", "Fire", {"tackle": 10, "ember": 20, #"fire blast": 25, "flame wheel": 35}, 100, "Water")
+#            }
 
+# Hardcoded dictionary of generic attacks
+attacks = {"tackle": 10, "leer": 20, "cut": 25, "scratch": 35}
+#todo: make new directory with attacks and damage
 
-def game_logic(poke_dict):
+#ToDo: implement weakness logic
+
+#def game_logic(poke_dict):
+def game_logic():
     print("Get Ready, Now Recruiting Your Team Of Pokemon!")
-    our_team = Lineup().recruit(poke_dict)
+    #our_team = Lineup().recruit(poke_dict)
+    our_team = Lineup().recruit()
     time.sleep(1.5)  # add delay for dramatic effect
     print("\n")
 
@@ -82,7 +97,8 @@ def game_logic(poke_dict):
     print("\n")
     print("Now Recruiting The Enemy Team!")
     print("\n")
-    your_team = Lineup().recruit(poke_dict)
+    #your_team = Lineup().recruit(poke_dict)
+    your_team = Lineup().recruit()
     time.sleep(1.5)
 
     print("Team Selected! Meet Your Enemies!")
@@ -136,8 +152,15 @@ def game_logic(poke_dict):
     if our_score > enemy_score:
         print("WE WON HAHAHAHAHAHAHAHAHAHAHAHA")
 
+    elif our_score == enemy_score:
+        print("IT'S A DRAW")
+
     else:
         print("WE LOST BECAUSE WE ARE LOSERS")
 
 
-game_logic(poke_dict)
+#game_logic(poke_dict)
+setup_game()
+#x = Lineup()
+#x.recruit()
+game_logic()
