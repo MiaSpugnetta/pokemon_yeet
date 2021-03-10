@@ -33,7 +33,7 @@ class Pokemon:
         self.hp -= damage
         self.get_status()
 
-
+# Lineup class of pokemon so that they can fight
 class Lineup:
     def __init__(self):
         self.members = []
@@ -48,6 +48,7 @@ class Lineup:
         for i in self.members:
             i.get_status()
 
+    # Randomly recruiting pokemon
     def recruit(self, poke_dict):
         for i in range(3):
             pokemon_to_add = random.choice(list(poke_dict.values()))  # pick ranndom pokemon
@@ -56,14 +57,7 @@ class Lineup:
         return self
 
 
-#class Fight():
-#    def __init__(self):
-#        pass
-#
-#    #def fight_to_the_death(pokemon):
-
-
-
+# Harcoded dictionary of pokemon objects
 poke_dict = {
             "bulbasaur": Pokemon("bulbasaur", "Grass", {"tackle": 10, "vine whip": 20, "razor leaf": 25, "hyper beam": 35}, 100, "Fire"),
             "squirtle": Pokemon("squirtle", "Water", {"tackle": 10, "water gun": 20, "bubble": 25, "hydro pump": 35}, 100, "Electric"),
@@ -106,7 +100,7 @@ def game_logic(poke_dict):
     # There are as many matches as pokemon per team
     for i in range(len(your_team.members)):
         while your_team.members[i].hp > 0 and our_team.members[i].hp > 0:  # attack randomly until the pokemon is dead
-            damage = our_team.members[i].run_attack()
+            damage = our_team.members[i].run_attack()  #todo: randomise wich team attacks first, it's always from ours as is
             your_team.members[i].receive_attack(damage)
             #time.sleep(1)
 
@@ -137,7 +131,6 @@ def game_logic(poke_dict):
 
 
                 continue
-
 
 
     if our_score > enemy_score:
