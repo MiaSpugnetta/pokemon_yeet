@@ -1,6 +1,7 @@
 import requests
 import json
 import os  # package to interact with host operative system
+import random
 
 
 def setup_game():
@@ -37,5 +38,12 @@ def load_pokemon(pokemon):
         poke_type = poke_data['types'][0]['type']['name']  # fetch type
         poke_hp = poke_data['stats'][0]['base_stat']  # fetch HPs
 
+        moves = []
+        for i in range(4):  # fetch four random moves
+            move = random.choice(poke_data['moves'])
+            move_name = move['move']['name']
+            moves.append(move_name)
 
-    return poke_name, poke_type, poke_hp
+    return poke_name, poke_type, poke_hp, moves
+
+print(load_pokemon(45))

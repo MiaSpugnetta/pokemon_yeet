@@ -3,7 +3,6 @@ import time
 from utilities import setup_game, load_pokemon
 
 
-
 # POKEMON: YEET
 # Class that defines a Pokemon
 class Pokemon:
@@ -55,9 +54,10 @@ class Lineup:
     def recruit(self):
         for i in range(6):  # team of six
             rand_pokemon = random.randint(1, 151)  # select random pokemon
-            poke_name, poke_type, poke_hp = load_pokemon(rand_pokemon)  # fetch info from file
+            poke_name, poke_type, poke_hp, moves = load_pokemon(rand_pokemon)  # fetch info from file
             #print(poke_type, poke_name, poke_hp)
             #pokemon_to_add = {poke_name: Pokemon(poke_name, poke_type, attacks, poke_hp, "None" )}
+            attacks = dict(zip(moves, damage))
             pokemon_to_add = Pokemon(poke_name, poke_type, attacks, poke_hp, "None" )
             self.members.append(pokemon_to_add)
 
@@ -79,8 +79,10 @@ class Lineup:
 #            }
 
 # Hardcoded dictionary of generic attacks
-attacks = {"tackle": 10, "leer": 20, "cut": 25, "scratch": 35}
+#attacks = {"tackle": 10, "leer": 20, "cut": 25, "scratch": 35}
 #todo: make new directory with attacks and damage
+
+damage = [10, 20, 25, 35]
 
 #ToDo: implement weakness logic
 
@@ -152,23 +154,16 @@ def game_logic():
 
 
     if our_score > enemy_score:
-        #print("WE WON HAHAHAHAHAHAHAHAHAHAHAHA")
         return "WE WON HAHAHAHAHAHAHAHAHAHAHAHA"
 
     elif our_score == enemy_score:
-        #print("IT'S A DRAW")
         return "IT'S A DRAW"
 
     else:
-        #print("WE LOST BECAUSE WE ARE LOSERS")
         return "WE LOST BECAUSE WE ARE LOSERS"
 
 
 setup_game()
-
-#game_logic()
-
-################################################################
 
 
 print(game_logic())
