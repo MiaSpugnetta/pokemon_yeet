@@ -1,8 +1,7 @@
 import random
 import time
 from utilities import setup_game, load_pokemon
-import pandas as pd
-import matplotlib.pyplot as plt
+
 
 
 # POKEMON: YEET
@@ -170,24 +169,6 @@ setup_game()
 #game_logic()
 
 ################################################################
-# check bias
 
-outcome_dict = {"WE WON HAHAHAHAHAHAHAHAHAHAHAHA": 0,
-                "IT'S A DRAW": 0,
-                "WE LOST BECAUSE WE ARE LOSERS": 0}
 
-for i in range(1000):
-    outcome = game_logic()
-    outcome_dict[outcome] += 1
-
-print(outcome_dict)
-
-#df = pd.DataFrame.from_dict(outcome_dict, orient='index')
-df = pd.DataFrame({'outcome': outcome_dict.keys(), 'value': outcome_dict.values()})
-
-df.plot(x="outcome", y="value", fontsize=5, rot=0, kind='bar')
-plt.show()
-
-print(df)
-
-#print(game_logic())
+print(game_logic())
