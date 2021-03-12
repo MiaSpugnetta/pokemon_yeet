@@ -6,7 +6,6 @@ from models import Pokemon, Lineup
 
 
 # POKEMON: YEET
-# def game_logic(poke_dict):
 def game_logic():
     print("Get Ready, Now Recruiting Your Team Of Pokemon!")
     our_team = Lineup().recruit()
@@ -25,12 +24,12 @@ def game_logic():
 
     print("Team Selected! Meet Your Enemies!")
     your_team.show_lineup()
-    # time.sleep(2)
+    time.sleep(1.5)
 
     print("\n")
     print("PREPARE TO FIGHT!!!")
     print("\n")
-    time.sleep(2)
+    time.sleep(2.5)
 
     #######################################################################################
     # define inner function to try out here
@@ -40,8 +39,9 @@ def game_logic():
             damage = first_pokemon.run_attack(second_pokemon)
             second_pokemon.receive_attack(damage)
             if second_pokemon.hp <= 0:
-                time.sleep(0.5)
+                time.sleep(1)
                 print(f"{second_pokemon.name} has FAINTED")
+                time.sleep(1.5)
                 second_pokemon.status = "fainted"
                 first_team_score += 1
                 continue
@@ -49,8 +49,9 @@ def game_logic():
             damage = second_pokemon.run_attack(first_pokemon)
             first_pokemon.receive_attack(damage)
             if first_pokemon.hp <= 0:
-                time.sleep(0.5)
+                time.sleep(1)
                 print(f"{first_pokemon.name} has FAINTED")
+                time.sleep(1.5)
                 first_pokemon.status = "fainted"
                 second_team_score += 1
                 continue
@@ -72,6 +73,7 @@ def game_logic():
             print(f"coin is {coin_flip}, enemy starts")
             enemy_score, our_score = fight(your_team.members[i], our_team.members[i], our_score, enemy_score)
 
+        print("\n")
         print(f"The Score is: Me: {our_score}, Enemy: {enemy_score}")
         print("\n")
         time.sleep(1.5)
