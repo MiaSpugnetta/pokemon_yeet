@@ -106,7 +106,7 @@ def game_logic():
     for i in range(len(your_team.members)):
         print(f"MATCH #{i+1}: {our_team.members[i].name} (HPs {our_team.members[i].hp}, {our_team.members[i].type}) vs {your_team.members[i].name} (HPs {your_team.members[i].hp}, {your_team.members[i].type})")
         #print("\n")
-        coin_flip = random.randrange(0, 2)
+        coin_flip = random.randrange(0, 2) # randomisation to see which pokemon attacks first
         print(f"coin is {coin_flip}")
         if coin_flip == 0:
             print("our pokemon starts")
@@ -118,7 +118,7 @@ def game_logic():
         while your_team.members[i].hp > 0 and our_team.members[i].hp > 0:  # attack randomly until the pokemon is dead
             if coin_flip == 0:
 
-                damage = our_team.members[i].run_attack(your_team.members[i])  #todo: randomise wich team attacks first, it's always from ours as is
+                damage = our_team.members[i].run_attack(your_team.members[i])
                 your_team.members[i].receive_attack(damage)
                 #time.sleep(1)
 
@@ -146,7 +146,7 @@ def game_logic():
                     continue
             else:
 
-                damage = your_team.members[i].run_attack(our_team.members[i])  #todo: randomise wich team attacks first, it's always from ours as is
+                damage = your_team.members[i].run_attack(our_team.members[i]) 
                 our_team.members[i].receive_attack(damage)
                 #time.sleep(1)
 

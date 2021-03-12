@@ -20,9 +20,8 @@ for i in range(100):
 
 # Create a DataFrame from the outcome_dict
 df = pd.DataFrame({'outcome': outcome_dict.keys(), 'value': outcome_dict.values()})
+print(df)
 
 # Plot the DataFrame
 df.plot(x="outcome", y="value", fontsize=5, rot=0, kind='bar')
 plt.show()
-
-print(df)

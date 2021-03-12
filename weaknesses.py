@@ -32,7 +32,7 @@ weaknesses = {  'normal':   {'rock': 0.5, 'ghost': 0},
                             'ghost': 0.5},
                 'rock':     {'fire': 2, 'ice': 2, 'fighting': 0.5,
                             'ground': 0.5, 'flying': 2, 'rock': 2},
-                'ghost':    {'normal': 0, 'psychic': 0, 'ghost': 2},
+                'ghost':    {'normal': 1, 'psychic': 0, 'ghost': 2},
                 'dragon':   {'dragon': 2}
                 }
 
