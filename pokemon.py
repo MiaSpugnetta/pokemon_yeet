@@ -25,8 +25,8 @@ class Pokemon:
 
     def run_attack(self, adversary):
         attack = random.choice(list(self.attacks.keys()))
-        damage = self.attacks[attack] #* weaknesses[self.type][adversary.type]
-        print(weaknesses[self.type][adversary.type])
+        damage = self.attacks[attack] * weaknesses[self.type][adversary.type]
+        #print(weaknesses[self.type][adversary.type])
         #print(weaknesses[self.type][adversary.type].values())
         print(f"{self.name} attacked with {attack} and it did {damage} damage")
         #time.sleep(1)
@@ -138,11 +138,11 @@ default_weakness = defaultdict(default_value_default_dict)
 default_weakness = defaultdict(lambda: defaultdict(lambda: 1))
 assert default_weakness['test']['test'] == 1
 
-for type in weaknesses:
-    tmp_default_dict = defaultdict(lambda: 1)
+for type in weaknesses:  # for key in the original dict
+    tmp_default_dict = defaultdict(lambda: 1)  # create a temporary defaultdict
     assert tmp_default_dict['test'] == 1
-    for type2 in weaknesses[type]:
-        tmp_default_dict[type2] = weaknesses[type][type2]
+    for type2 in weaknesses[type]:  # for key in the inner dictionary
+        tmp_default_dict[type2] = weaknesses[type][type2]  #
 
     default_weakness[type] = tmp_default_dict
 
@@ -189,18 +189,21 @@ def game_logic():
 
     # There are as many matches as pokemon per team
     for i in range(len(your_team.members)):
+        print(f"MATCH #{i+1}: {our_team.members[i].name} (HPs {our_team.members[i].hp}, {our_team.members[i].type}) vs {your_team.members[i].name} (HPs {your_team.members[i].hp}, {your_team.members[i].type})")
+        #print("\n")
         while your_team.members[i].hp > 0 and our_team.members[i].hp > 0:  # attack randomly until the pokemon is dead
             damage = our_team.members[i].run_attack(your_team.members[i])  #todo: randomise wich team attacks first, it's always from ours as is
             your_team.members[i].receive_attack(damage)
-            print("%%%%%%%%%%%%%%%%%%%%")
-            print(your_team.members[i].type)
+
+            #print(f"OUR TYPE {our_team.members[i].type} ATTACKED ENEMY TYPE {your_team.members[i].type} and did DAMAGE {damage}")
+
             #time.sleep(1)
 
             if your_team.members[i].hp <= 0:
-                print("\n")
+                #print("\n")
                 print(f"{your_team.members[i].name} has FAINTED")
                 your_team.members[i].status = "fainted"
-                your_team.members[i].get_status()
+                #your_team.members[i].get_status()
                 our_score += 1
                 print(f"The Score is: Me: {our_score}, Enemy: {enemy_score}")
                 print("\n")
@@ -210,11 +213,12 @@ def game_logic():
 
             damage = your_team.members[i].run_attack(our_team.members[i])
             our_team.members[i].receive_attack(damage)
+            #print(f"ENEMY TYPE {your_team.members[i].type} ATTACKED OUR TYPE {your_team.members[i].type} and did DAMAGE {damage}")
 
             if our_team.members[i].hp <= 0:
-                print("\n")
+                #print("\n")
                 print(f"{our_team.members[i].name} has FAINTED")
-                our_team.members[i].status = "fainted"
+                #our_team.members[i].status = "fainted"
                 our_team.members[i].get_status()
                 enemy_score += 1
                 print(f"The Score is: Me: {our_score}, Enemy: {enemy_score}")
