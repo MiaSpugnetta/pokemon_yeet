@@ -90,74 +90,49 @@ def game_logic():
     print("\n")
     #time.sleep(3)
 
+    #######################################################################################
+    # define inner function to try out here
+
+    def fight(first_pokemon, second_pokemon, first_team_score, second_team_score):
+        while second_pokemon.hp > 0 and first_pokemon.hp > 0:
+            damage = first_pokemon.run_attack(second_pokemon)
+            second_pokemon.receive_attack(damage)
+            if second_pokemon.hp <= 0:
+                print(f"{second_pokemon.name} has FAINTED")
+                second_pokemon.status = "fainted"
+                first_team_score += 1
+                #time.sleep(1)
+                continue
+
+            damage = second_pokemon.run_attack(first_pokemon)
+            first_pokemon.receive_attack(damage)
+            if first_pokemon.hp <= 0:
+                print(f"{first_pokemon.name} has FAINTED")
+                first_pokemon.status = "fainted"
+                second_team_score += 1
+                #time.sleep(1)
+                continue
+        return first_team_score, second_team_score
+
+#########################################################
     our_score = 0  # ToDo: change score system to fight until all team pokemon have fainted
     enemy_score = 0
 
     # There are as many matches as pokemon per team
     for i in range(len(your_team.members)):
         print(f"MATCH #{i+1}: {our_team.members[i].name} (HPs {our_team.members[i].hp}, {our_team.members[i].type}) vs {your_team.members[i].name} (HPs {your_team.members[i].hp}, {your_team.members[i].type})")
-        coin_flip = random.randrange(0, 2) # randomisation to see which pokemon attacks first
+        coin_flip = random.randrange(0, 2)  # randomisation to see which pokemon attacks first
+        # ToDo: somehow it appears to be biased towards our_team again. even if the coin_flip is fair and value gets swapped
         if coin_flip == 0:
             print(f"coin is {coin_flip}, our pokemon starts")
-            print("%%%%%%%%%%%%%%%%%%%%%%%%%%%")
+            our_score, enemy_score = fight(our_team.members[i], your_team.members[i], our_score, enemy_score)
+
         else:
             print(f"coin is {coin_flip}, enemy starts")
-            print("%%%%%%%%%%%%%%%%%%%%%%%%%%%")
+            enemy_score, our_score = fight(your_team.members[i], our_team.members[i], our_score, enemy_score)
 
-        while your_team.members[i].hp > 0 and our_team.members[i].hp > 0:  # attack randomly until the pokemon is dead
-            if coin_flip == 0:
-                damage = our_team.members[i].run_attack(your_team.members[i])
-                your_team.members[i].receive_attack(damage)
-
-                if your_team.members[i].hp <= 0:
-                    print(f"{your_team.members[i].name} has FAINTED")
-                    your_team.members[i].status = "fainted"
-                    our_score += 1
-                    print(f"The Score is: Me: {our_score}, Enemy: {enemy_score}")
-                    print("\n")
-                    #time.sleep(1)
-
-                    continue
-
-                damage = your_team.members[i].run_attack(our_team.members[i])
-                our_team.members[i].receive_attack(damage)
-
-                if our_team.members[i].hp <= 0:
-                    print(f"{our_team.members[i].name} has FAINTED")
-                    our_team.members[i].status = "fainted"
-                    enemy_score += 1
-                    print(f"The Score is: Me: {our_score}, Enemy: {enemy_score}")
-                    print("\n")
-                    #time.sleep(1)
-
-                    continue
-            else:
-
-                damage = your_team.members[i].run_attack(our_team.members[i])
-                our_team.members[i].receive_attack(damage)
-
-                if our_team.members[i].hp <= 0:
-                    print(f"{our_team.members[i].name} has FAINTED")
-                    our_team.members[i].status = "fainted"
-                    enemy_score += 1
-                    print(f"The Score is: Me: {our_score}, Enemy: {enemy_score}")
-                    print("\n")
-                    #time.sleep(1)
-
-                    continue
-
-                damage = our_team.members[i].run_attack(your_team.members[i])
-                your_team.members[i].receive_attack(damage)
-
-                if your_team.members[i].hp <= 0:
-                    print(f"{your_team.members[i].name} has FAINTED")
-                    your_team.members[i].status = "fainted"
-                    our_score += 1
-                    print(f"The Score is: Me: {our_score}, Enemy: {enemy_score}")
-                    print("\n")
-                    #time.sleep(1)
-
-                    continue
+        print(f"The Score is: Me: {our_score}, Enemy: {enemy_score}")
+        print("\n")
 
     if our_score > enemy_score:
         return "WE WON HAHAHAHAHAHAHAHAHAHAHAHA"
@@ -168,7 +143,7 @@ def game_logic():
     else:
         return "WE LOST BECAUSE WE ARE LOSERS"
 
-
+####################################################
 setup_game()
 
 print(game_logic())

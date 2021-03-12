@@ -4,15 +4,15 @@ import os  # package to interact with host operative system
 import random
 
 
+# Setup folder for cache if not already there
 def setup_game():
-    # Setup folder for cache if not already there
-    if os.path.isdir('./pokemon') == False:  # check if folder exists
+    if not os.path.isdir('./pokemon'):  # check if folder exists
         print("Creating Pokemon directory...")
         os.mkdir('./pokemon')  # create folder
 
     for i in range(1, 152):
         # Check if data is not already present locally
-        if os.path.isfile(f"./pokemon/{i}.json") == False:
+        if not os.path.isfile(f"./pokemon/{i}.json"):
             try:
                 # for every pokemon send request to the API and write data to a json file
                 r = requests.get(f'https://pokeapi.co/api/v2/pokemon/{i}')  # get data
@@ -29,6 +29,7 @@ def setup_game():
     print("Game is setup and ready to begin!")
 
 
+# Load data from files
 def load_pokemon(pokemon):
     with open(f'./pokemon/{pokemon}.json') as f:
         poke_data = json.load(f)
