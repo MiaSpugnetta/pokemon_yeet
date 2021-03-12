@@ -10,18 +10,18 @@ from models import Pokemon, Lineup
 def game_logic():
     print("Get Ready, Now Recruiting Your Team Of Pokemon!")
     our_team = Lineup().recruit()
-    # time.sleep(1.5)  # add delay for dramatic effect
+    time.sleep(1.5)  # add delay for dramatic effect
     print("\n")
 
     print("Team Selected! Meet Your New Team")
     our_team.show_lineup()
-    # time.sleep(2)
+    time.sleep(1.5)
 
     print("\n")
     print("Now Recruiting The Enemy Team!")
     print("\n")
     your_team = Lineup().recruit()
-    # time.sleep(1.5)
+    time.sleep(1.5)
 
     print("Team Selected! Meet Your Enemies!")
     your_team.show_lineup()
@@ -30,7 +30,7 @@ def game_logic():
     print("\n")
     print("PREPARE TO FIGHT!!!")
     print("\n")
-    # time.sleep(3)
+    time.sleep(2)
 
     #######################################################################################
     # define inner function to try out here
@@ -40,19 +40,19 @@ def game_logic():
             damage = first_pokemon.run_attack(second_pokemon)
             second_pokemon.receive_attack(damage)
             if second_pokemon.hp <= 0:
+                time.sleep(0.5)
                 print(f"{second_pokemon.name} has FAINTED")
                 second_pokemon.status = "fainted"
                 first_team_score += 1
-                # time.sleep(1)
                 continue
 
             damage = second_pokemon.run_attack(first_pokemon)
             first_pokemon.receive_attack(damage)
             if first_pokemon.hp <= 0:
+                time.sleep(0.5)
                 print(f"{first_pokemon.name} has FAINTED")
                 first_pokemon.status = "fainted"
                 second_team_score += 1
-                # time.sleep(1)
                 continue
         return first_team_score, second_team_score
 
@@ -74,6 +74,7 @@ def game_logic():
 
         print(f"The Score is: Me: {our_score}, Enemy: {enemy_score}")
         print("\n")
+        time.sleep(1.5)
 
     if our_score > enemy_score:
         return "WE WON HAHAHAHAHAHAHAHAHAHAHAHA"
