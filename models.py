@@ -1,6 +1,7 @@
 import random
 from utilities import load_pokemon
 from weaknesses import weaknesses
+import time
 
 
 # List of damage to randomly pair with selected attacks from file
@@ -30,7 +31,7 @@ class Pokemon:
         attack = random.choice(list(self.attacks.keys()))
         damage = self.attacks[attack] * weaknesses[self.type][adversary.type]
         print(f"{self.name} attacked with {attack} and it did {damage} damage")
-        # time.sleep(1)
+        time.sleep(1)
         return damage
 
     def receive_attack(self, damage):

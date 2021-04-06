@@ -71,12 +71,12 @@ def game_logic():
 
         else:
             print(f"coin is {coin_flip}, enemy starts")
-            enemy_score, our_score = fight(your_team.members[i], our_team.members[i], our_score, enemy_score)
+            enemy_score, our_score = fight(your_team.members[i], our_team.members[i], enemy_score, our_score)
 
         print("\n")
         print(f"The Score is: Me: {our_score}, Enemy: {enemy_score}")
         print("\n")
-        time.sleep(1.5)
+        time.sleep(2)
 
     if our_score > enemy_score:
         return "WE WON HAHAHAHAHAHAHAHAHAHAHAHA"
@@ -90,5 +90,6 @@ def game_logic():
 
 ####################################################
 setup_game()
+time.sleep(1)
 
 print(game_logic())
