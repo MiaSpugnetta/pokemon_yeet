@@ -1,7 +1,6 @@
 import random
 import time
-from utilities import setup_game#, load_pokemon
-#from weaknesses import weaknesses
+from utilities import setup_game
 from models import Pokemon, Lineup
 
 
@@ -31,9 +30,8 @@ def game_logic():
     print("\n")
     time.sleep(2.5)
 
-    #######################################################################################
-    # define inner function to try out here
-
+    ####################################################
+    # Fight logic defined here as inner function
     def fight(first_pokemon, second_pokemon, first_team_score, second_team_score):
         while second_pokemon.hp > 0 and first_pokemon.hp > 0:
             damage = first_pokemon.run_attack(second_pokemon)
@@ -57,8 +55,9 @@ def game_logic():
                 continue
         return first_team_score, second_team_score
 
-    #########################################################
-    our_score = 0  # ToDo: change score system to fight until all team pokemon have fainted
+
+    ####################################################
+    our_score = 0
     enemy_score = 0
 
     # There are as many matches as pokemon per team

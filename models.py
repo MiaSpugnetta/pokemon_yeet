@@ -10,17 +10,16 @@ damage = [10, 20, 25, 35]
 
 # Class that defines a Pokemon
 class Pokemon:
-    def __init__(self, name, type, attacks, hp):  # , weakness):
+    def __init__(self, name, type, attacks, hp):
         self.name = name
         self.type = type
         self.attacks = attacks
         self.hp = hp
-        # self.weakness = weakness
         self.status = "awake"
 
     # print hp
     def get_status(self):
-        print(f"{self.name}: HP: {self.hp} TYPE: {self.type}")  # STATUS: {self.status}")
+        print(f"{self.name}: HP: {self.hp} TYPE: {self.type}")
 
     # print move list
     def get_attacks(self):
@@ -58,7 +57,7 @@ class Lineup:
                 poke_type = "normal"  # changed to stay true to I generation
 
             attacks = dict(zip(moves, damage))  # make a dict out of the list of moves from json and list of damage
-            pokemon_to_add = Pokemon(poke_name, poke_type, attacks, poke_hp)  # , "None" )
+            pokemon_to_add = Pokemon(poke_name, poke_type, attacks, poke_hp)
             self.members.append(pokemon_to_add)
 
         return self
